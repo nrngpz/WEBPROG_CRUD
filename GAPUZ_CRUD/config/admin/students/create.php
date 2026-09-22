@@ -1,24 +1,26 @@
-<?php
+<?php 
 session_start();
 include "../../config/database.php";
+
+//only admin can access this page
 if(!isset($_SESSION["role"]) || $_SESSION["role"] != "admin"){
     header ("Location: ../../index.php");
     exit;
 }
-
 $message = "";
-if(isset($_POST["save"])){
+if (isset($_POST["save"])){
     //get all data from form
-    $subject_code = $_POST["subject_code"];
-    $subject_name = $_POST["subject_name"];
-    $units = $_POST["units"];
+    $student_no = $_POST["student_no"];
+    $full_name = $_POST["full_name"];
+    $username = $_POST["username"];
+    $password = password_hash($_POST["password"],PASSWORD_DEFAULT);
 
     //sql command to insert record
-    $sql="INSERT INTO subjects (subject_code, subject_name, units)
-    VALUES ('$subject_code','$subject_name', '$units')";
+    $sql="INSERT INTO users(student_no,full_name,username,password,role)
+    VALUES ('$student_no','$full_name','$username','$password','student')";
 
-    if(mysqli_query($conn, $sql)){
-        header("Location:index.php?message=Student Record Added Successfully");
+    if(mysqli_query($conn,$sql)){
+        header ("Location:index.php?message=Student Record Added Successfully");
         exit;
     }
     else{
@@ -26,8 +28,6 @@ if(isset($_POST["save"])){
     }
 }
 ?>
-
-
 
 <!doctype html>
 <html lang="en">
@@ -40,7 +40,7 @@ if(isset($_POST["save"])){
         content="width=device-width, initial-scale=1"
     >
 
-    <title>Subject Form</title>
+    <title>Student Form</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -57,45 +57,55 @@ if(isset($_POST["save"])){
         style="max-width: 700px;"
     >
 
-        <!-- Subject Form Card -->
+        <!-- Student Form Card -->
         <div class="card border-0 shadow-sm">
 
             <div class="card-body p-4">
 
-                <h2>Subject Form</h2>
+                <h2>Student Account Form</h2>
                 <?php if ($message != ""){?>
                 <div class = "alert alert-danger"> </div><?php echo $message;?></div>
                 <?php }?>
 
-                <form method="POST">
+                <form method = "POST">
 
-                    <!-- Subject Code -->
+                    <!-- Student Number -->
                     <div class="mb-3">
                         <label class="form-label">
-                            Subject Code
+                            Student Number
                         </label>
 
-                        <input class="form-control" name="subject_code">
+                        <input class="form-control" name="student_no">
                     </div>
 
-                    <!-- Subject Name -->
+                    <!-- Full Name -->
                     <div class="mb-3">
                         <label class="form-label">
-                            Subject Name
+                            Full Name
                         </label>
 
-                        <input class="form-control" name="subject_name">
+                        <input class="form-control" name="full_name">
                     </div>
 
-                    <!-- Units -->
+                    <!-- Username -->
                     <div class="mb-3">
                         <label class="form-label">
-                            Units
+                            Username
+                        </label>
+
+                        <input class="form-control" name="username">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Password
                         </label>
 
                         <input
-                            type="number"
-                            class="form-control" name="units"
+                            type="password"
+                            class="form-control"
+                            name="password"
                         >
                     </div>
 
@@ -105,7 +115,7 @@ if(isset($_POST["save"])){
                         class="btn btn-primary"
                         name="save"
                     >
-                        Save Subject
+                        Save Student
                     </button>
 
                     <a

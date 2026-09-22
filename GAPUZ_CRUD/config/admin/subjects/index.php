@@ -1,19 +1,3 @@
-<?php
-session_start();
-include "../../config/database.php";
-
-//only admin can access this page
-if(!isset($_SESSION["role"]) || $_SESSION["role"] != "admin"){
-    header ("Location: ../../index.php");
-    exit;
-}
-$sql = "SELECT * FROM subjects"; 
-$result = mysqli_query($conn, $sql); //para gumana yung sql
-?>
-
-
-
-
 <!doctype html>
 <html lang="en">
 
@@ -65,13 +49,13 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
             <div>
                 <h2>Subjects</h2>
 
-                <a href="../dashboard.php">
+                <a href="dashboard.html">
                     ← Dashboard
                 </a>
             </div>
 
             <a
-                href="create.php"
+                href="subject_form.html"
                 class="btn btn-primary"
             >
                 + Add Subject
@@ -99,29 +83,18 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
 
                         <!-- Subject Record -->
                         <tr>
-                            <?php while($row = mysqli_fetch_assoc($result)){?> 
-                        <tr>
-                            <td><?php echo htmlspecialchars($row["subject_code"]);?></td>
+                            <td>IT101</td>
 
                             <td>
-                                <?php echo htmlspecialchars($row["subject_name"]);?>
+                                Introduction to Computing
                             </td>
 
-                            <td>
-                                <?php echo htmlspecialchars($row["units"]);?>
-                            </td>
+                            <td>3</td>
 
                             <td>
                                 <a
-                                    class="btn btn-success btn-sm"
-                                    href="enroll.html"
-                                >
-                                    Enroll Subjects
-                                </a>
-
-                                <a
+                                    href="subject_form.html"
                                     class="btn btn-warning btn-sm"
-                                    href="student_form.html"
                                 >
                                     Edit
                                 </a>
@@ -132,8 +105,6 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
                                     Delete
                                 </button>
                             </td>
-                        </tr>
-                    <?php }?>
                         </tr>
 
                     </tbody>

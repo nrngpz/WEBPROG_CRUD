@@ -101,7 +101,7 @@ $enrollments = mysqli_query($conn, "SELECT id FROM enrollments");
                         <h2><?php echo mysqli_num_rows ($subjects);?></h2>
 
                         <a
-                            href="subjects/index.php"
+                            href="subjects.html"
                             class="btn btn-primary btn-sm"
                         >
                             Manage Subjects

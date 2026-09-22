@@ -27,7 +27,7 @@ if(isset($_POST["login"])){
     if(mysqli_num_rows($result)==1){
         $user = mysqli_fetch_assoc($result);
 
-        if(password_verify($password, $user["password"]));
+        if(password_verify($password, $user["id"]));
         $_SESSION["user_id"] = $user["id"];
         $_SESSION["full_name"] = $user["full_name"];
         $_SESSION["role"] = $user["role"];
@@ -68,7 +68,7 @@ if(isset($_POST["login"])){
             <p class="text-center text-muted">Admin and Student Login</p>
 
             <?php if($error != ""){?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="alert alert-danger"><?php echo $error; ?>/div>
             <?php }?>
 
 

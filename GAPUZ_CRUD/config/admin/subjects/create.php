@@ -1,34 +1,3 @@
-<?php
-session_start();
-include "../../config/database.php";
-if(!isset($_SESSION["role"]) || $_SESSION["role"] != "admin"){
-    header ("Location: ../../index.php");
-    exit;
-}
-
-$message = "";
-if(isset($_POST["save"])){
-    //get all data from form
-    $subject_code = $_POST["subject_code"];
-    $subject_name = $_POST["subject_name"];
-    $units = $_POST["units"];
-
-    //sql command to insert record
-    $sql="INSERT INTO subjects (subject_code, subject_name, units)
-    VALUES ('$subject_code','$subject_name', '$units')";
-
-    if(mysqli_query($conn, $sql)){
-        header("Location:index.php?message=Student Record Added Successfully");
-        exit;
-    }
-    else{
-        $message="Could not save student record!";
-    }
-}
-?>
-
-
-
 <!doctype html>
 <html lang="en">
 
@@ -63,11 +32,8 @@ if(isset($_POST["save"])){
             <div class="card-body p-4">
 
                 <h2>Subject Form</h2>
-                <?php if ($message != ""){?>
-                <div class = "alert alert-danger"> </div><?php echo $message;?></div>
-                <?php }?>
 
-                <form method="POST">
+                <form>
 
                     <!-- Subject Code -->
                     <div class="mb-3">
@@ -75,7 +41,7 @@ if(isset($_POST["save"])){
                             Subject Code
                         </label>
 
-                        <input class="form-control" name="subject_code">
+                        <input class="form-control">
                     </div>
 
                     <!-- Subject Name -->
@@ -84,7 +50,7 @@ if(isset($_POST["save"])){
                             Subject Name
                         </label>
 
-                        <input class="form-control" name="subject_name">
+                        <input class="form-control">
                     </div>
 
                     <!-- Units -->
@@ -95,21 +61,20 @@ if(isset($_POST["save"])){
 
                         <input
                             type="number"
-                            class="form-control" name="units"
+                            class="form-control"
                         >
                     </div>
 
                     <!-- Form Actions -->
                     <button
-                        type="submit"
+                        type="button"
                         class="btn btn-primary"
-                        name="save"
                     >
                         Save Subject
                     </button>
 
                     <a
-                        href="index.php"
+                        href="subjects.html"
                         class="btn btn-secondary"
                     >
                         Cancel

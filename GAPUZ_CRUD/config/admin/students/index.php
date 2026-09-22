@@ -7,11 +7,9 @@ if(!isset($_SESSION["role"]) || $_SESSION["role"] != "admin"){
     header ("Location: ../../index.php");
     exit;
 }
-$sql = "SELECT * FROM subjects"; 
+$sql = "SELECT * FROM users WHERE role = 'student' ORDER BY id DESC"; 
 $result = mysqli_query($conn, $sql); //para gumana yung sql
 ?>
-
-
 
 
 <!doctype html>
@@ -25,7 +23,7 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
         content="width=device-width, initial-scale=1"
     >
 
-    <title>Subjects</title>
+    <title>Students</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -59,11 +57,16 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
     <!-- Main Content -->
     <div class="container py-4">
 
+
+        <?php if(isset($_GET["message"])){?>
+        <div class="alert alert-success"><?php echo $_GET["message"];?></div>
+        <?php }?>
+
         <!-- Header Section -->
         <div class="d-flex justify-content-between mb-3">
 
             <div>
-                <h2>Subjects</h2>
+                <h2>Student Accounts</h2>
 
                 <a href="../dashboard.php">
                     ← Dashboard
@@ -71,44 +74,42 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
             </div>
 
             <a
-                href="create.php"
                 class="btn btn-primary"
+                href="create.php"
             >
-                + Add Subject
+                + Add Student
             </a>
 
         </div>
 
-        <!-- Subjects List Card -->
+        <!-- Student List Card -->
         <div class="card">
-
             <div class="card-body">
 
-                <table class="table">
+                <table class="table table-hover">
 
                     <thead>
                         <tr>
-                            <th>Code</th>
-                            <th>Subject Name</th>
-                            <th>Units</th>
+                            <th>Student No.</th>
+                            <th>Name</th>
+                            <th>Username</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
 
                     <tbody>
 
-                        <!-- Subject Record -->
+                        <!-- Student Record -->
+                         <?php while($row = mysqli_fetch_assoc($result)){?> 
                         <tr>
-                            <?php while($row = mysqli_fetch_assoc($result)){?> 
-                        <tr>
-                            <td><?php echo htmlspecialchars($row["subject_code"]);?></td>
+                            <td><?php echo htmlspecialchars($row["student_no"]);?></td>
 
                             <td>
-                                <?php echo htmlspecialchars($row["subject_name"]);?>
+                                <?php echo htmlspecialchars($row["full_name"]);?>
                             </td>
 
                             <td>
-                                <?php echo htmlspecialchars($row["units"]);?>
+                                <?php echo htmlspecialchars($row["username"]);?>
                             </td>
 
                             <td>
@@ -133,15 +134,13 @@ $result = mysqli_query($conn, $sql); //para gumana yung sql
                                 </button>
                             </td>
                         </tr>
-                    <?php }?>
-                        </tr>
+                    <?php }?>    
 
                     </tbody>
 
                 </table>
 
             </div>
-
         </div>
 
     </div>
